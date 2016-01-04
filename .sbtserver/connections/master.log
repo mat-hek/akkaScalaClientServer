@@ -1,0 +1,43 @@
+New log file opened at Mon Jan 04 19:16:01 CET 2016 by 5008@mathek
+Taking next connection to: 65315
+New client attempting to connect on port: 65316-65315
+  Address = /192.168.1.30:65315
+This client on port 65316 has uuid f43e1bc1-8823-4398-bde7-ab990a070451 configName activator humanReadableName Activator protocolVersion 3 featureTags Vector()
+Connected Clients: activator-f43e1bc1-8823-4398-bde7-ab990a070451
+Taking next connection to: 65315
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 65315
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 65315
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 65315
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 65315
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 65315
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 65315
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 65315
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 65315
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 65315
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 65315
+Checking to see if clients are empty...
+No non-daemon clients connected after 3 min. Shutting down.
+Server socket thread exiting.
+0 clients open, will close them...
+All client sockets have been closed.
+Closing the 5008@mathek logs at Mon Jan 04 19:49:02 CET 2016, goodbye.
