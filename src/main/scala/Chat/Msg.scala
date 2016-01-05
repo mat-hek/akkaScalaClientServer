@@ -12,3 +12,6 @@ case class Info(msg: String) extends Msg
 case class Connect(username: String) extends Msg
 case class Broadcast(msg: String) extends Msg
 case object Disconnect extends Msg
+
+case object BecomeServer extends Msg
+case class BecomeClient(addr:String) extends Msg
