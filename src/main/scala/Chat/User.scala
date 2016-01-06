@@ -22,22 +22,16 @@ class User(val nick: String) extends Actor{
 
   def receive = undefined
   def undefined : Receive = {
-    case BecomeClient(addr:String) =>
-      implicit val timeout = Timeout(5 seconds)
-      val serverSel = context.actorSelection(s"akka.tcp://Sys@$addr/user/user").resolveOne()
-      serverSel onComplete {
-        case Success(server) =>
-          server ! Connect(nick)
-          context.become(client(server))
+    case BecomeClient(addr:String) => connectToServer(addr) onComplete {
+      case Success(server) =>
+        server ! Connect(nick)
+        context.become(client(server))
+      case Failure(e) => e.printStackTrace
+    }
 
-        case Failure(e) => e.printStackTrace
-      }
-
-
-    case BecomeServer =>
-      context.become(server((nick,self) :: List[(String,ActorRef)]()))
-
+    case BecomeServer => context.become(server((nick,self) :: List[(String,ActorRef)]()))
   }
+
   def server(clients:List[(String,ActorRef)]): Receive=
   {
     case Connect(username) =>
@@ -68,6 +62,10 @@ class User(val nick: String) extends Actor{
     case m => common(m,server)
   }
 
+  def connectToServer(addr:String) = {
+    implicit val timeout = Timeout(5 seconds)
+    context.actorSelection(s"akka.tcp://Sys@$addr/user/user").resolveOne()
+  }
 
   def common(m:Any,server:ActorRef) = m match {
       case NewMsg(from, msg) => println(f"[$nick%s's client] - $from%s: $msg%s")
