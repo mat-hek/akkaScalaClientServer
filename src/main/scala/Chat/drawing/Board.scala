@@ -36,7 +36,7 @@ object Board extends App
         canvas.drawPoint(new Point(point.x, point.y, Color.green))
     }
   }
-  println("board closed")
+  println("board opened")
 }
 
 
