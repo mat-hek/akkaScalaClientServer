@@ -1,5 +1,7 @@
 package Chat
 
+import java.awt.Color
+
 import akka.actor.ActorSystem
 import com.typesafe.config.ConfigFactory
 
@@ -8,7 +10,7 @@ object Client2 extends App {
   val config = ConfigFactory.parseString("include \"common\", akka.remote.netty.tcp.port = "++port)
   val system = ActorSystem("Sys", config)
 
-  val John = User("John",system)
+  val John = User("John",Color.blue,system)
 
   val serverHostName = ConfigFactory.load("server.conf").getString("akka.remote.netty.tcp.hostname")
   val serverPort = ConfigFactory.load("server.conf").getString("akka.remote.netty.tcp.port")
@@ -17,6 +19,6 @@ object Client2 extends App {
   John ! BecomeClient(serverAddr)
   Thread.sleep(2000)
   println("sending hi")
-  John ! Send("Hi!")
-  John ! Send("Hi again!")
+  John ! SendText("Hi!")
+  John ! SendText("Hi again!")
 }

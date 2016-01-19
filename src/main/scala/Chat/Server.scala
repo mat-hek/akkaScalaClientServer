@@ -1,3 +1,4 @@
+/*
 package Chat
 
 import akka.actor._
@@ -41,3 +42,4 @@ class Server extends Actor {
     clients.filter(actor == _._2).head._1
   }
 }
+*/

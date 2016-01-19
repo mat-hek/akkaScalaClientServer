@@ -1,3 +1,4 @@
+/*
 package Chat
 
 import akka.actor._
@@ -33,3 +34,4 @@ class Client(val username: String, val remoteHostPort:String) extends Actor {
     }
   }
 }
+*/

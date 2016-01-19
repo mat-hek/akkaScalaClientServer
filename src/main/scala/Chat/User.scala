@@ -1,5 +1,6 @@
 package Chat
 
+import Chat.drawing.Board
 import com.typesafe.config.ConfigFactory
 
 import scala.concurrent.duration._
@@ -9,16 +10,15 @@ import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
 import scala.util.Random
-/**
- * Created by Mat Hek on 2016-01-05.
- */
+import java.awt.Color
 
 object User{
-  def apply(nick:String, system:ActorSystem) = system.actorOf(Props(new User(nick)), "user")
+  def apply(nick:String, color:Color, system:ActorSystem) = system.actorOf(Props(new User(nick, color, system)), "user")
 }
 
-class User(val nick: String) extends Actor{
+class User(val nick: String, val color:Color, val system:ActorSystem) extends Actor{
 
+  val board = Board(system,self,nick,color)
 
   def receive = undefined
   def undefined : Receive = {
@@ -68,8 +68,12 @@ class User(val nick: String) extends Actor{
   }
 
   def common(m:Any,server:ActorRef) = m match {
-      case NewMsg(from, msg) => println(f"[$nick%s's client] - $from%s: $msg%s")
-      case Send(msg) => server ! Broadcast(msg)
+      case NewMsg(from, msg) =>
+          msg match{
+            case SendText(msg) => println(f"[$nick%s's client] - $from%s: $msg%s")
+            case SendDrawing(msg) => board ! msg
+          }
+      case m:Send => server ! Broadcast(m)
       case Info(msg) => println(f"[$nick%s's client] - $msg%s")
       case Disconnect => self ! PoisonPill
     }
