@@ -19,7 +19,8 @@ case class Connect(username: String) extends Msg
 case class Broadcast(msg: Send) extends Msg
 case object Disconnect extends Msg
 
-case object BecomeServer extends Msg
-case class BecomeClient(addr:String) extends Msg
+abstract class BecomeMsg extends Msg
+case object BecomeServer extends BecomeMsg
+case class BecomeClient(addr:String) extends BecomeMsg
 
 //case class Draw(drawing:Drawing) extends Msg
