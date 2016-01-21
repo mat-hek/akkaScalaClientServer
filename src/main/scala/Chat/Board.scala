@@ -22,11 +22,11 @@ class BoardActor(boardDrawing:BoardDrawing) extends Actor
 {
   def receive = {
     case drawing:Drawing => boardDrawing.draw(drawing)
+    case OpenBoard => boardDrawing.visible = true
   }
 }
 class BoardDrawing(userActor:ActorRef, userName:String, userColor:Color) extends Frame
 {
-  visible = true
   title = userName ++ "'s board"
   var lastPoint:Point = null
 

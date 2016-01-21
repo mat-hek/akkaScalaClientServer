@@ -1,8 +1,4 @@
 package Chat
-
-import java.awt.Color
-import java.lang.String
-
 import akka.actor._
 import com.typesafe.config.ConfigFactory
 
@@ -32,26 +28,24 @@ object TextUI extends App {
   while(true) {
     matchCmd(Console.in.readLine) match {
       case Cmd("connect",Array(hostName,userName,color)) =>
-        user = User(userName, Color.orange, system)
+        user = User(userName, getColor(color), system)
         user ! BecomeClient(hostName)
       case Cmd("openChat", Array(userName,color)) =>
-        user = User(userName, Color.orange, system)
+        user = User(userName, getColor(color), system)
         user ! BecomeServer
-      case Cmd("sendMsg", Array(msg)) =>
+      case Cmd("msg", Array(msg)) =>
         user ! SendText(msg)
+      case Cmd("board",_) =>
+        user ! OpenBoard
+      case Cmd("quit",_) =>
+        user ! PoisonPill
+        System.exit(0)
+
 
       case _ => Console println "command not recognized"
     }
   }
-  /*
 
-
-  Jack ! BecomeClient(serverAddr)
-  Thread.sleep(2000)
-  println("sending hi")
-  Jack ! SendText("Hi!")
-  Jack ! SendText("Hi again!")
-  */
 }
 
 class TextUIActor extends Actor {

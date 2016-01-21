@@ -1,3 +1,4 @@
 package Chat
 
-abstract class localMsg
+abstract class LocalMsg
+case object OpenBoard extends  LocalMsg
