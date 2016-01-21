@@ -24,24 +24,26 @@ class User(val nick: String, val color:Color, val system:ActorSystem) extends Ac
     case BecomeClient(addr:String) => connectToServer(addr) onComplete {
       case Success(server) =>
         server ! Connect(nick)
-        context.watch(server)
-        context.become(client(server) orElse common(server))
+        context watch server
+        context become client(server)
       case Failure(e) => e.printStackTrace
     }
 
     case BecomeServer =>
-      context.become(server((nick,self) :: List[(String,ActorRef)]()) orElse common(self) )
+      context become server((nick,self) :: List[(String,ActorRef)]())
   }
 
   def server(clients:List[(String,ActorRef)]): Receive=
   {
     def broadcast(msg: Msg, clients:List[(String,ActorRef)]) = clients.foreach(x => x._2 ! msg)
     def getUsername(actor: ActorRef, clients:List[(String,ActorRef)]): String = clients.filter(actor == _._2).head._1
+    def getUserActor(name: String, clients:List[(String,ActorRef)]): ActorRef = clients.filter(name == _._1).head._2
     val serverRecieve: Receive = {
       case Connect(username) =>
-        broadcast(Info(f"$username%s joined the chat"), clients)
-        context.watch(sender)
-        context.become(server((username, sender) :: clients))
+        val newClients = (username, sender) :: clients
+        broadcast(Info(f"$username%s joined the chat"), newClients)
+        context watch sender
+        context become server(newClients)
 
       case Broadcast(msg) =>
         val username = getUsername(sender, clients)
@@ -51,13 +53,23 @@ class User(val nick: String, val color:Color, val system:ActorSystem) extends Ac
         val username = getUsername(client, clients)
         broadcast(Info(f"$username%s left the chat"), clients)
         context.become(server(clients.filter(sender != _._2)))
+
+      case ThrowServer(userName) =>
+        broadcast(Info(f"server bein thrown to $userName%s"), clients)
+        val userActor = getUserActor(userName,clients)
+        userActor ! BecomeServer(clients)
+        context become client(userActor)
+
     }
-    return serverRecieve orElse common(self)
+    serverRecieve orElse common(self)
   }
 
 
-  def client(server:ActorRef) : Receive = {
+  def client(myServer:ActorRef) : Receive = {
     val clientReceive:Receive = {
+      case BecomeServer(clients) =>
+        println("BecomingServer")
+        context become server(clients)
       case Terminated(server)  =>
         println("Connection to the server has been lost")
         self ! PoisonPill
@@ -65,7 +77,7 @@ class User(val nick: String, val color:Color, val system:ActorSystem) extends Ac
         println("You are disconnected by the server")
         self ! PoisonPill
     }
-    return clientReceive orElse common(server)
+    clientReceive orElse common(myServer)
   }
 
   def connectToServer(addr:String) = {

@@ -37,6 +37,8 @@ object TextUI extends App {
         user ! SendText(msg)
       case Cmd("board",_) =>
         user ! OpenBoard
+      case Cmd("throwTo",Array(userName)) =>
+        user ! ThrowServer(userName)
       case Cmd("quit",_) =>
         user ! PoisonPill
         System.exit(0)

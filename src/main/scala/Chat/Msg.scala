@@ -1,5 +1,7 @@
 package Chat
 
+import akka.actor.ActorRef
+
 
 abstract class Msg
 
@@ -16,5 +18,5 @@ case class Broadcast(msg: Send) extends Msg
 case object Disconnect extends Msg
 
 abstract class BecomeMsg extends Msg
-case object BecomeServer extends BecomeMsg
+case class BecomeServer(clients:List[(String,ActorRef)] = List[(String,ActorRef)]()) extends BecomeMsg
 case class BecomeClient(addr:String) extends BecomeMsg
