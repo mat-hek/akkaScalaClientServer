@@ -10,5 +10,11 @@ libraryDependencies ++= Seq(
   "org.scala-lang.modules" %% "scala-swing" % "1.0.1"
 )
 
+libraryDependencies += "org.scalactic" %% "scalactic" % "2.2.6"
+libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.6" % "test"
+
+resolvers += "Artima Maven Repository" at "http://repo.artima.com/releases"
+
+
 
 fork in run := true
