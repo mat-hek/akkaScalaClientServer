@@ -1,10 +1,6 @@
 package Chat
 
-import Chat.drawing.Drawing
 
-/**
- * Created by Mat Hek on 2016-01-04.
- */
 abstract class Msg
 
 abstract class Send extends Msg
@@ -22,5 +18,3 @@ case object Disconnect extends Msg
 abstract class BecomeMsg extends Msg
 case object BecomeServer extends BecomeMsg
 case class BecomeClient(addr:String) extends BecomeMsg
-
-//case class Draw(drawing:Drawing) extends Msg

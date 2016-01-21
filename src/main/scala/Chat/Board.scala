@@ -1,18 +1,16 @@
-package Chat.drawing
+package Chat
 
 /**
  * Created by Mat Hek on 2016-01-15.
  */
 
-import Chat.SendDrawing
+import java.awt.{BasicStroke, Color, Graphics2D}
+
 import akka.actor._
 
-import scala.swing._
 import scala.swing.BorderPanel.Position._
-import event._
-import java.awt.{ Color, Graphics2D, BasicStroke }
-
 import scala.swing._
+import scala.swing.event._
 object Board{
   def apply(system:ActorSystem, userActor: ActorRef, userName:String, userColor:Color):ActorRef = {
     val boardDrawing = new BoardDrawing(userActor, userName, userColor)

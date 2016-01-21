@@ -16,5 +16,4 @@ libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.6" % "test"
 resolvers += "Artima Maven Repository" at "http://repo.artima.com/releases"
 
 
-
 fork in run := true

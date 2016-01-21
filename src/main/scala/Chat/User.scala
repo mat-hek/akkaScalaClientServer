@@ -1,6 +1,5 @@
 package Chat
 
-import Chat.drawing.Board
 import com.typesafe.config.ConfigFactory
 
 import scala.concurrent.duration._
